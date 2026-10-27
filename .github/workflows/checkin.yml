@@ -1,0 +1,25 @@
+
+name: GLaDOS Daily Check-in
+
+on:
+  schedule:
+    # 每天北京时间 08:00 执行（UTC 00:00）
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run check-in
+        env:
+          GLADOS_COOKIE: ${{ secrets.GLADOS_COOKIE }}
+        run: bash checkin.sh
